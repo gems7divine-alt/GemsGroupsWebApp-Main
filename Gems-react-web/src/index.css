@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Cinzel:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Poppins", sans-serif;
+  --font-cinzel: "Cinzel", serif;
+  
+  --color-gold-primary: #D4AF37;
+  --color-gold-secondary: #FFD76A;
+  --color-dark-bg: #050505;
+  --color-dark-card: rgba(15, 15, 15, 0.7);
+}
+
+@layer base {
+  html, body {
+    overflow-x: hidden;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-dark-bg text-white font-sans;
+  }
+  section {
+    padding: 80px 0;
+  }
+  .container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-dark-card backdrop-blur-md border border-gold-primary/20 rounded-2xl;
+  }
+  
+  .glass-nav {
+    @apply bg-dark-bg/60 backdrop-blur-lg border-b border-white/5;
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-gold-primary to-gold-secondary;
+  }
+  
+  .hex-icon {
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+}
