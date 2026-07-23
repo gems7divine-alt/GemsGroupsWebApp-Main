@@ -1,181 +1,344 @@
+// import React, { useEffect, useState } from "react";
+// import { Clock, CheckCircle } from "lucide-react";
+// import {
+//     checkIn,
+//     checkOut,
+//     getDashboard,
+// } from "../../api/attendanceApi";
+
+// const ActionButtons = ({ status }) => {
+
+//     const [loading, setLoading] = useState(false);
+
+//     const [checkedIn, setCheckedIn] = useState(false);
+
+//     const [checkedOut, setCheckedOut] = useState(false);
+
+//     const [message, setMessage] = useState("");
+
+//     useEffect(() => {
+
+//         loadDashboardStatus();
+
+//     }, []);
+
+//     const loadDashboardStatus = async () => {
+
+//         try {
+
+//             const dashboard = await getDashboard();
+
+//             if (dashboard.checkIn !== "--") {
+
+//                 setCheckedIn(true);
+
+//             }
+
+//             if (
+//                 dashboard.workingHours &&
+//                 dashboard.workingHours !== "00:00"
+//             ) {
+
+//                 setCheckedOut(true);
+
+//             }
+
+//         } catch (e) {
+
+//             console.log(e);
+
+//         }
+
+//     };
+
+//     const handleCheckIn = async () => {
+
+//         setLoading(true);
+
+//         try {
+
+//             const response = await checkIn();
+
+//             setMessage(response);
+
+//             setCheckedIn(true);
+
+//             window.location.reload();
+
+//         } catch (error) {
+
+//             setMessage("Check In Failed");
+
+//         }
+
+//         setLoading(false);
+
+//     };
+
+//     const handleCheckOut = async () => {
+
+//         setLoading(true);
+
+//         try {
+
+//             const response = await checkOut();
+
+//             setMessage(response);
+
+//             setCheckedOut(true);
+
+//             window.location.reload();
+
+//         } catch (error) {
+
+//             setMessage("Check Out Failed");
+
+//         }
+
+//         setLoading(false);
+
+//     };
+
+//     return (
+//     <>
+//         <div className="glass-card p-6 rounded-xl shadow-lg">
+
+//             <h2 className="text-xl font-bold text-white mb-6 text-center">
+//                 Quick Actions
+//             </h2>
+
+//             {/* Check In Button */}
+
+//             <button
+//                 onClick={handleCheckIn}
+//                 disabled={checkedIn || loading}
+//                 className={`
+//                     w-full mb-4 px-4 py-3 rounded-xl
+//                     flex items-center justify-center gap-2
+//                     font-semibold text-lg
+//                     transition-all duration-300
+
+//                     ${
+//                         checkedIn
+//                             ? "bg-blue-600 text-white cursor-not-allowed"
+//                             : "bg-yellow-500 hover:bg-yellow-400 text-black hover:scale-[1.02]"
+//                     }
+
+//                     ${loading ? "opacity-70 cursor-wait" : ""}
+//                 `}
+//             >
+//                 <Clock size={20} />
+
+//                 {loading
+//                     ? "Processing..."
+//                     : checkedIn
+//                     ? "Checked In ✓"
+//                     : "Check In"}
+//             </button>
+
+//             {/* Check Out Button */}
+
+//             <button
+//                 onClick={handleCheckOut}
+//                 disabled={!checkedIn || checkedOut || loading}
+//                 className={`
+//                     w-full px-4 py-3 rounded-xl
+//                     flex items-center justify-center gap-2
+//                     font-semibold text-lg
+//                     transition-all duration-300
+
+//                     ${
+//                         checkedOut
+//                             ? "bg-red-600 text-white cursor-not-allowed"
+//                             : checkedIn
+//                             ? "bg-green-500 hover:bg-green-400 text-white hover:scale-[1.02]"
+//                             : "bg-gray-500 text-gray-300 cursor-not-allowed"
+//                     }
+
+//                     ${loading ? "opacity-70 cursor-wait" : ""}
+//                 `}
+//             >
+//                 <CheckCircle size={20} />
+
+//                 {checkedOut
+//                     ? "Checked Out ✓"
+//                     : "Check Out"}
+//             </button>
+
+//         </div>
+
+//         {message && (
+//             <div className="fixed bottom-6 right-6 bg-black/90 text-white px-6 py-3 rounded-xl shadow-xl animate-bounce">
+//                 {message}
+//             </div>
+//         )}
+//     </>
+// );
+
+// };
+
+// export default ActionButtons;
+
 import React, { useEffect, useState } from "react";
 import { Clock, CheckCircle } from "lucide-react";
 import {
-    checkIn,
-    checkOut,
-    getDashboard,
+  checkIn,
+  checkOut,
+  getDashboard,
 } from "../../api/attendanceApi";
 
-const ActionButtons = ({ status }) => {
+const ActionButtons = () => {
 
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [checkedIn, setCheckedIn] = useState(false);
+  const [checkedOut, setCheckedOut] = useState(false);
+  const [message, setMessage] = useState("");
 
-    const [checkedIn, setCheckedIn] = useState(false);
+  useEffect(() => {
+    loadDashboardStatus();
+  }, []);
 
-    const [checkedOut, setCheckedOut] = useState(false);
+  const loadDashboardStatus = async () => {
 
-    const [message, setMessage] = useState("");
+    try {
 
-    useEffect(() => {
+      const dashboard = await getDashboard();
 
-        loadDashboardStatus();
+      if (dashboard.checkIn !== "--") {
+        setCheckedIn(true);
+      }
 
-    }, []);
 
-    const loadDashboardStatus = async () => {
+      setCheckedIn(dashboard.checkIn !== "--");
+      setCheckedOut(dashboard.checkedOut);
 
-        try {
+    } catch (error) {
+      console.log(error);
+    }
 
-            const dashboard = await getDashboard();
+  };
 
-            if (dashboard.checkIn !== "--") {
+  const handleCheckIn = async () => {
 
-                setCheckedIn(true);
+    setLoading(true);
 
-            }
+    try {
 
-            if (
-                dashboard.workingHours &&
-                dashboard.workingHours !== "00:00"
-            ) {
+      const response = await checkIn();
 
-                setCheckedOut(true);
+      setMessage(response);
 
-            }
+      setCheckedIn(true);
 
-        } catch (e) {
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
 
-            console.log(e);
+    } catch (error) {
 
-        }
+      setMessage("Check In Failed");
 
-    };
+    }
 
-    const handleCheckIn = async () => {
+    setLoading(false);
 
-        setLoading(true);
+  };
 
-        try {
+  const handleCheckOut = async () => {
 
-            const response = await checkIn();
+    setLoading(true);
 
-            setMessage(response);
+    try {
 
-            setCheckedIn(true);
+      const response = await checkOut();
 
-            window.location.reload();
+      setMessage(response);
 
-        } catch (error) {
+      setCheckedOut(true);
 
-            setMessage("Check In Failed");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
 
-        }
+    } catch (error) {
 
-        setLoading(false);
+      setMessage("Check Out Failed");
 
-    };
+    }
 
-    const handleCheckOut = async () => {
+    setLoading(false);
 
-        setLoading(true);
+  };
 
-        try {
+  return (
+    <>
+      <div className="glass-card p-6 rounded-xl">
 
-            const response = await checkOut();
+        <h2 className="text-xl font-bold text-white mb-6">
+          Quick Actions
+        </h2>
 
-            setMessage(response);
+        {/* CHECK IN */}
 
-            setCheckedOut(true);
-
-            window.location.reload();
-
-        } catch (error) {
-
-            setMessage("Check Out Failed");
-
-        }
-
-        setLoading(false);
-
-    };
-
-    return (
-
-        <>
-            <div className="glass-card p-5">
-
-                <h2 className="text-xl font-bold text-white mb-5">
-
-                    Quick Actions
-
-                </h2>
-
-                <button
-
-                    onClick={handleCheckIn}
-
-                    disabled={checkedIn || loading}
-
-                    className="w-full mb-4 px-4 py-3 rounded-lg bg-yellow-500 text-black font-bold disabled:bg-gray-500"
-
-                >
-
-                    <Clock className="inline mr-2"/>
-
-                    {
-
-                        loading
-                            ? "Processing..."
-                            : checkedIn
-                            ? "Checked In"
-                            : "Check In"
-
-                    }
-
-                </button>
-
-                <button
-
-                    onClick={handleCheckOut}
-
-                    disabled={!checkedIn || checkedOut || loading}
-
-                    className="w-full px-4 py-3 rounded-lg bg-green-500 text-white font-bold disabled:bg-gray-500"
-
-                >
-
-                    <CheckCircle className="inline mr-2"/>
-
-                    {
-
-                        checkedOut
-                            ? "Checked Out"
-                            : "Check Out"
-
-                    }
-
-                </button>
-
-            </div>
-
-            {
-
-                message && (
-
-                    <div className="fixed bottom-5 right-5 bg-black text-white px-5 py-3 rounded-lg">
-
-                        {message}
-
-                    </div>
-
-                )
-
-            }
-
-        </>
-
-    );
-
+        <button
+          onClick={handleCheckIn}
+          disabled={checkedIn || loading}
+          className={`w-full mb-4 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2
+          ${loading
+              ? "bg-blue-500 text-white"
+              : checkedIn
+                ? "bg-green-600 text-white cursor-not-allowed"
+                : "bg-yellow-500 hover:bg-yellow-400 text-black"
+            }`}
+        >
+
+          <Clock size={20} />
+
+          {loading
+            ? "Checking In..."
+            : checkedIn
+              ? "✓ Checked In"
+              : "Check In"}
+
+        </button>
+
+        {/* CHECK OUT */}
+
+        <button
+          onClick={handleCheckOut}
+          disabled={!checkedIn || checkedOut || loading}
+          className={`w-full py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2
+          ${!checkedIn
+              ? "bg-gray-500 text-gray-300 cursor-not-allowed"
+              : loading
+                ? "bg-blue-500 text-white"
+                : checkedOut
+                  ? "bg-green-600 text-white cursor-not-allowed"
+                  : "bg-yellow-500 hover:bg-yellow-400 text-black"
+            }`}
+        >
+
+          <CheckCircle size={20} />
+
+          {!checkedIn
+            ? "Check Out"
+            : loading
+              ? "Checking Out..."
+              : checkedOut
+                ? "✓ Checked Out"
+                : "Check Out"}
+
+        </button>
+
+      </div>
+
+      {message && (
+        <div className="fixed bottom-6 right-6 bg-black text-white px-6 py-3 rounded-lg shadow-lg border border-yellow-500">
+          {message}
+        </div>
+      )}
+    </>
+  );
 };
 
 export default ActionButtons;

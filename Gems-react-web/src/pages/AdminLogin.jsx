@@ -12,7 +12,7 @@ const AdminLogin = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (password === 'David@2003') {
+    if (password === 'David@2020') {
       setError('');
       navigate('/admin-dashboard');
     } else {

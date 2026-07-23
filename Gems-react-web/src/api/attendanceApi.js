@@ -44,6 +44,7 @@ export const getDashboard = async () => {
 
     const response = await api.get(`/attendance/dashboard/${email}`);
 
+
     return response.data;
 
 };
@@ -53,5 +54,23 @@ export const getAdminAttendance = async () => {
     const response = await api.get("/attendance/admin");
 
     return response.data;
+
+};
+
+const loadDashboardStatus = async () => {
+
+    try {
+
+        const dashboard = await getDashboard();
+
+        setCheckedIn(dashboard.checkIn !== "--");
+
+        setCheckedOut(dashboard.checkedOut);
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
 
 };

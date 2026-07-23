@@ -1,23 +1,29 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
 
 export const loginUser = async (email, password) => {
   try {
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({
+        email,
+        password,
+      }),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || 'Login failed');
+    const data = await response.json();
+
+    // Backend validation
+    if (!data.success) {
+      throw new Error(data.message);
     }
 
-    return await response.json();
+    return data;
+
   } catch (error) {
-    console.error('API Error (login):', error);
     throw error;
   }
 };

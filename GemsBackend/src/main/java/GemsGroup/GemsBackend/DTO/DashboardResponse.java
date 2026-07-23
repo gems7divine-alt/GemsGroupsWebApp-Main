@@ -9,7 +9,21 @@ public class DashboardResponse {
     private String workingHours;
     private String weeklyHours;
 
-    private List<Integer> weeklyChart;
+    private boolean checkedOut;
+
+    public boolean isCheckedOut() {
+        return checkedOut;
+    }
+
+    public void setCheckedOut(boolean checkedOut) {
+        this.checkedOut = checkedOut;
+    }
+
+    private List<WeeklyChartResponse> weeklyChart;
+
+    public void setWeeklyChart(List<WeeklyChartResponse> weeklyChart) {
+        this.weeklyChart = weeklyChart;
+    }
 
     public DashboardResponse() {
     }
@@ -18,7 +32,7 @@ public class DashboardResponse {
                              String checkIn,
                              String workingHours,
                              String weeklyHours,
-                             List<Integer> weeklyChart) {
+                             List<WeeklyChartResponse> weeklyChart) {
 
         this.todayStatus = todayStatus;
         this.checkIn = checkIn;
@@ -59,11 +73,11 @@ public class DashboardResponse {
         this.weeklyHours = weeklyHours;
     }
 
-    public List<Integer> getWeeklyChart() {
-        return weeklyChart;
-    }
+//    public List<Integer> getWeeklyChart() {
+//        return weeklyChart;
+//    }
 
-    public void setWeeklyChart(List<Integer> weeklyChart) {
-        this.weeklyChart = weeklyChart;
-    }
+//    public void setWeeklyChart(List<Integer> weeklyChart) {
+//        this.weeklyChart = weeklyChart;
+//    }
 }

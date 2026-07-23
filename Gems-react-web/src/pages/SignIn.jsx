@@ -1,107 +1,188 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../api/authApi';
-import Button from '../components/Button';
-import AnimatedBackground from '../components/AnimatedBackground';
-import { LogIn, AlertCircle } from 'lucide-react';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../api/authApi";
+import Button from "../components/Button";
+import AnimatedBackground from "../components/AnimatedBackground";
+import { LogIn, AlertCircle } from "lucide-react";
 
 const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [error, setError] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async (e) => {
+
     e.preventDefault();
+
+    setError("");
+
     setIsLoading(true);
-    setError('');
 
     try {
+
       const data = await loginUser(email, password);
-      console.log('Login successful:', data);
-      localStorage.setItem("email", email);
-      navigate('/employee-dashboard');
+
+      console.log("Login Success :", data);
+
+      // Save logged-in email
+      localStorage.setItem("email", data.email);
+
+
+      navigate("/employee-dashboard");
+
     } catch (err) {
-      setError(err.message || 'Failed to sign in. Please check your credentials.');
+
+      console.error(err);
+
+      setError(err.message);
+
     } finally {
+
       setIsLoading(false);
+
     }
   };
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-dark-bg text-white overflow-hidden px-4">
+
       <AnimatedBackground />
 
       <div className="absolute top-8 left-8 z-50">
-        <Button variant="secondary" onClick={() => navigate('/')} className="!py-2 !px-4 !text-sm">
-          &larr; Back to Home
+
+        <Button
+          variant="secondary"
+          onClick={() => navigate("/")}
+          className="!py-2 !px-4 !text-sm"
+        >
+          ← Back to Home
         </Button>
+
       </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
         className="glass-card w-full max-w-md relative z-20"
       >
-        <div className="p-6 border-b border-gold-primary/20 flex flex-col items-center justify-center">
+
+        <div className="p-6 border-b border-gold-primary/20 flex flex-col items-center">
+
           <div className="w-12 h-12 rounded-full bg-gold-primary/10 flex items-center justify-center mb-3">
+
             <LogIn className="text-gold-primary" size={24} />
+
           </div>
-          <h2 className="text-2xl font-bold tracking-wide">Sign in</h2>
-          <p className="text-gray-400 text-sm mt-1 text-center">Access your employee account</p>
+
+          <h2 className="text-2xl font-bold">
+
+            Sign In
+
+          </h2>
+
+          <p className="text-gray-400 text-sm">
+
+            Access your employee account
+
+          </p>
+
         </div>
 
-        <form onSubmit={handleSubmit} className="p-8 flex flex-col gap-6">
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-gray-300">Email Address</label>
+        <form
+          onSubmit={handleSubmit}
+          className="p-8 flex flex-col gap-6"
+        >
+
+          <div>
+
+            <label className="text-sm text-gray-300">
+
+              Email Address
+
+            </label>
+
             <input
               type="email"
+              className="w-full mt-2 bg-dark-bg/50 border border-white/10 rounded-lg px-4 py-3 text-white"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-dark-bg/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold-primary/50 transition-colors min-h-[44px]"
               required
             />
+
           </div>
 
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-gray-300">Password</label>
+          <div>
+
+            <label className="text-sm text-gray-300">
+
+              Password
+
+            </label>
+
             <input
               type="password"
+              className="w-full mt-2 bg-dark-bg/50 border border-white/10 rounded-lg px-4 py-3 text-white"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-dark-bg/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold-primary/50 transition-colors tracking-widest min-h-[44px]"
               required
             />
+
           </div>
 
           {error && (
+
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-2 text-red-400 text-sm bg-red-400/10 p-3 rounded-lg border border-red-400/20"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-red-400"
             >
-              <AlertCircle size={16} />
-              <span>{error}</span>
+
+              <AlertCircle size={18} />
+
+              {error}
+
             </motion.div>
+
           )}
 
           <Button
             type="submit"
             variant="primary"
-            className="w-full justify-center mt-2 disabled:opacity-70 disabled:cursor-not-allowed"
             disabled={isLoading}
+            className="w-full justify-center"
           >
-            {isLoading ? 'Authenticating...' : 'Sign In'}
+
+            {isLoading ? "Signing In..." : "Sign In"}
+
           </Button>
 
-          <div className="mt-4 text-center text-sm text-gray-400">
-            New here? <Link to="/create-account" className="text-gold-primary font-semibold hover:text-gold-secondary transition-colors">Create an account</Link>
+          <div className="text-center text-gray-400">
+
+            New here?{" "}
+
+            <Link
+              to="/create-account"
+              className="text-gold-primary font-semibold"
+            >
+
+              Create an account
+
+            </Link>
+
           </div>
+
         </form>
+
       </motion.div>
+
     </div>
   );
 };

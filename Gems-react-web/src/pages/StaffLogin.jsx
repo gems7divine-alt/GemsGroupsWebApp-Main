@@ -12,7 +12,7 @@ const StaffLogin = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (password === 'Gems@2020') {
+    if (password === 'GemsGroups@2020') {
       setError('');
       navigate('/employee-portal');
     } else {

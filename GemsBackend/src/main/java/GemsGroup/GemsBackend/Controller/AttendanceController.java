@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/attendance")
-@CrossOrigin(origins = "http://localhost:5184")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AttendanceController {
 
     @Autowired
@@ -63,5 +63,4 @@ public class AttendanceController {
         return attendanceService.getAdminAttendance();
 
     }
-
 }

@@ -1,5 +1,6 @@
 package GemsGroup.GemsBackend.Service;
 
+import GemsGroup.GemsBackend.DTO.WeeklyChartResponse;
 import GemsGroup.GemsBackend.Entity.User;
 import GemsGroup.GemsBackend.Entity.Attendance;
 import GemsGroup.GemsBackend.DTO.DashboardResponse;
@@ -270,40 +271,45 @@ public class AttendanceService {
     // WEEKLY CHART
     // ===========================================================
 
-    private List<Integer> getWeeklyChart(User user) {
 
-        LocalDate today = LocalDate.now(IST);
+    private List<WeeklyChartResponse> getWeeklyChart(User user) {
 
-        LocalDate monday =
-                today.with(DayOfWeek.MONDAY);
+        LocalDate monday = LocalDate.now(IST)
+                .with(DayOfWeek.MONDAY);
 
-        List<Integer> chart = new ArrayList<>();
+        List<WeeklyChartResponse> chart = new ArrayList<>();
 
         for (int i = 0; i < 7; i++) {
 
-            LocalDate current = monday.plusDays(i);
+            LocalDate currentDate = monday.plusDays(i);
 
             Attendance attendance =
                     attendanceRepository
-                            .findByUserAndDate(user, current)
+                            .findByUserAndDate(user, currentDate)
                             .orElse(null);
 
-            if (attendance == null ||
-                    attendance.getCheckIn() == null ||
-                    attendance.getCheckOut() == null) {
+            int hours = 0;
 
-                chart.add(0);
-
-            } else {
+            if (attendance != null &&
+                    attendance.getCheckIn() != null &&
+                    attendance.getCheckOut() != null) {
 
                 Duration duration =
                         Duration.between(
                                 attendance.getCheckIn(),
-                                attendance.getCheckOut()
-                        );
+                                attendance.getCheckOut());
 
-                chart.add((int) duration.toHours());
+                hours = (int) duration.toHours();
             }
+
+            chart.add(
+                    new WeeklyChartResponse(
+                            currentDate.getDayOfWeek()
+                                    .name()
+                                    .substring(0,3),
+                            hours
+                    )
+            );
 
         }
 

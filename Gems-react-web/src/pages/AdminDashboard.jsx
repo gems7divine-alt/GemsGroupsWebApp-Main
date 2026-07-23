@@ -59,21 +59,36 @@ const AdminDashboard = () => {
 
   const handleSearch = (e) => {
 
-    const value = e.target.value;
+    const value = e.target.value.toLowerCase();
 
-    setSearch(value);
+    setSearch(e.target.value);
 
     const filtered = users.filter((user) =>
-      user.name.toLowerCase().includes(value.toLowerCase())
+
+      user.id.toString().includes(value) ||
+
+      user.name.toLowerCase().includes(value) ||
+
+      user.date.toLowerCase().includes(value) ||
+
+      user.checkIn.toLowerCase().includes(value) ||
+
+      user.checkOut.toLowerCase().includes(value) ||
+
+      user.totalHours.toLowerCase().includes(value) ||
+
+      user.status.toLowerCase().includes(value)
+
     );
 
     setFilteredUsers(filtered);
 
   };
 
+
   const handleDownloadExcel = () => {
 
-    if(filteredUsers.length===0){
+    if (filteredUsers.length === 0) {
 
       alert("No Records Found");
 
@@ -93,11 +108,11 @@ const AdminDashboard = () => {
 
     ];
 
-    const csvRows=[];
+    const csvRows = [];
 
     csvRows.push(headers.join(","));
 
-    filteredUsers.forEach(user=>{
+    filteredUsers.forEach(user => {
 
       csvRows.push([
 
@@ -123,7 +138,7 @@ const AdminDashboard = () => {
     const link =
       document.createElement("a");
 
-    link.setAttribute("href",encodedUri);
+    link.setAttribute("href", encodedUri);
 
     link.setAttribute(
       "download",
@@ -168,7 +183,7 @@ const AdminDashboard = () => {
 
         >
 
-          <LogOut size={16}/>
+          <LogOut size={16} />
 
           Logout
 
@@ -180,11 +195,11 @@ const AdminDashboard = () => {
 
         <motion.div
 
-          initial={{opacity:0,y:20}}
+          initial={{ opacity: 0, y: 20 }}
 
-          animate={{opacity:1,y:0}}
+          animate={{ opacity: 1, y: 0 }}
 
-          transition={{duration:0.5}}
+          transition={{ duration: 0.5 }}
 
         >
 
@@ -216,7 +231,7 @@ const AdminDashboard = () => {
 
             >
 
-              <Download size={18}/>
+              <Download size={18} />
 
               Export CSV
 
@@ -293,37 +308,37 @@ const AdminDashboard = () => {
 
                 </thead>
 
-                <tbody>
+                {<tbody>
 
                   {loading ? (
 
                     <tr>
-
-                      <td
-                        colSpan="7"
-                        className="text-center p-10"
-                      >
-
+                      <td colSpan="7" className="text-center p-10">
                         Loading...
-
                       </td>
-
                     </tr>
 
-                  ) : (                    filteredUsers.map((user, index) => (
+                  ) : filteredUsers.length === 0 ? (
+
+                    <tr>
+                      <td
+                        colSpan="7"
+                        className="text-center p-10 text-red-400"
+                      >
+                        No employee found
+                      </td>
+                    </tr>
+
+                  ) : (
+
+                    filteredUsers.map((user, index) => (
 
                       <motion.tr
-
-                        key={user.id}
-
+                        key={`${user.id}-${user.date}-${index}`}
                         initial={{ opacity: 0, y: 10 }}
-
                         animate={{ opacity: 1, y: 0 }}
-
                         transition={{ delay: index * 0.05 }}
-
                         className="border-b border-white/5 hover:bg-white/5 transition-colors"
-
                       >
 
                         <td className="p-4 text-gray-400">
@@ -351,20 +366,16 @@ const AdminDashboard = () => {
                         </td>
 
                         <td className="p-4">
-
                           <span
-                            className={`px-3 py-1 rounded-full text-xs font-medium border
-                            ${
-                              user.status === "Completed"
+                            className={`px-3 py-1 rounded-full text-xs font-medium border ${user.status === "Completed"
                                 ? "bg-green-500/10 text-green-400 border-green-500/20"
                                 : user.status === "Active"
-                                ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
-                                : "bg-red-500/10 text-red-400 border-red-500/20"
-                            }`}
+                                  ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                                  : "bg-red-500/10 text-red-400 border-red-500/20"
+                              }`}
                           >
                             {user.status}
                           </span>
-
                         </td>
 
                       </motion.tr>
@@ -373,7 +384,7 @@ const AdminDashboard = () => {
 
                   )}
 
-                </tbody>
+                </tbody>}
 
               </table>
 

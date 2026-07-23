@@ -11,7 +11,7 @@ const Topbar = ({ onMenuClick }) => {
         >
           <Menu className="w-6 h-6" />
         </button>
-        <h2 className="text-xl font-semibold hidden sm:block font-cinzel text-gradient">Welcome back, John Doe</h2>
+        <h2 className="text-xl font-semibold hidden sm:block font-cinzel text-gradient">Welcome back</h2>
       </div>
 
       
