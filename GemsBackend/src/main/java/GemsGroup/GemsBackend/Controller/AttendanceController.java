@@ -17,7 +17,7 @@ public class AttendanceController {
     @Autowired
     private AttendanceService attendanceService;
 
-    // Dashboard
+    // Dashboard--
 
     @GetMapping("/dashboard/{email}")
     public DashboardResponse dashboard(
