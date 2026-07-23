@@ -1,5 +1,5 @@
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:8081/api";
+  import.meta.env.VITE_API_BASE_URL || "http://82.25.104.27:8080/api";
 
 export const loginUser = async (email, password) => {
   try {
