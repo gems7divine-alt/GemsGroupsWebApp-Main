@@ -1,0 +1,17 @@
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\Configuration\CorsConfig.java
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\Controller\AttendanceController.java
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\Controller\AuthController.java
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\DTO\AdminAttendanceResponse.java
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\DTO\AttendanceResponse.java
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\DTO\AuthResponse.java
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\DTO\DashboardResponse.java
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\DTO\LoginRequest.java
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\DTO\RegisterRequest.java
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\DTO\WeeklyChartResponse.java
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\Entity\Attendance.java
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\Entity\User.java
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\GemsBackendApplication.java
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\Repository\AttendanceRepository.java
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\Repository\UserRepository.java
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\Service\AttendanceService.java
+D:\CompanyProject\GemsGroupsWebpage-main\GemsBackend\src\main\java\GemsGroup\GemsBackend\Service\AuthService.java
