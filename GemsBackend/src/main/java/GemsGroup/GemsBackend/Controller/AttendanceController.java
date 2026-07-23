@@ -47,7 +47,7 @@ public class AttendanceController {
 
     }
 
-    // Check Out
+    // Check Out email
 
     @PostMapping("/checkout/{email}")
     public String checkOut(
