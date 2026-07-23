@@ -22,7 +22,13 @@ public class CorsConfig {
                                 "http://82.25.104.27",
                                 "http://82.25.104.27:5173"
                         )
-                        .allowedMethods("GET","POST","PUT","DELETE","OPTIONS")
+                        .allowedMethods(
+                                "GET",
+                                "POST",
+                                "PUT",
+                                "DELETE",
+                                "OPTIONS"
+                        )
                         .allowedHeaders("*")
                         .allowCredentials(false);
 
@@ -31,5 +37,4 @@ public class CorsConfig {
         };
 
     }
-
 }
