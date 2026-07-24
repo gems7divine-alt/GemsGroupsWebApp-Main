@@ -20,7 +20,6 @@ export default defineConfig({
     port: 5173,
     allowedHosts: [
       "82.25.104.27",
-      "frontend",
       "localhost"
     ]
   }
