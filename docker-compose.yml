@@ -117,15 +117,14 @@ services:
       - "8081:8080"
 
   frontend:
-    build: ./Gems-react-web
-    container_name: gems-frontend
-    restart: always
+  build: ./Gems-react-web
+  container_name: gems-frontend
+  restart: always
 
-    depends_on:
-      - backend
+  depends_on:
+    - backend
 
-    ports:
-      - "5173:5173"
-
+  ports:
+    - "5173:80"
 volumes:
   mysql-data:
