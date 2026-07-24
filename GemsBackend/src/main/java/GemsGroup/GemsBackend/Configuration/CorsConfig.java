@@ -17,20 +17,14 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
 
                 registry.addMapping("/**")
-                        .allowedOrigins(
+                        .allowedOriginPatterns(
                                 "http://localhost:5173",
-                                "http://82.25.104.27:5173",
                                 "http://82.25.104.27",
+                                "http://82.25.104.27:5173",
                                 "https://gems-groups.in",
                                 "https://www.gems-groups.in"
                         )
-                        .allowedMethods(
-                                "GET",
-                                "POST",
-                                "PUT",
-                                "DELETE",
-                                "OPTIONS"
-                        )
+                        .allowedMethods("*")
                         .allowedHeaders("*")
                         .allowCredentials(false);
 
