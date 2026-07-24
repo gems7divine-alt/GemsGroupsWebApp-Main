@@ -1,12 +1,14 @@
 # version: "3.9"
+
 # services:
+
 #   mysql:
 #     image: mysql:8.0
 #     container_name: gems-mysql
 #     restart: always
 
 #     environment:
-#       MYSQL_ROOT_PASSWORD: "GemsGroups@2020"
+#       MYSQL_ROOT_PASSWORD: GemsGroups@2020
 #       MYSQL_DATABASE: GemsGroupWebApp
 
 #     ports:
@@ -25,19 +27,19 @@
 #   backend:
 #     build: ./GemsBackend
 #     container_name: gems-backend
-#     # restart: always
+#     restart: always
 
 #     depends_on:
 #       mysql:
 #         condition: service_healthy
 
-#     ports:
-#       - "8081:8080"
-
 #     environment:
 #       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/GemsGroupWebApp?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
 #       SPRING_DATASOURCE_USERNAME: root
-#       SPRING_DATASOURCE_PASSWORD: "GemsGroups@2020"
+#       SPRING_DATASOURCE_PASSWORD: GemsGroups@2020
+
+#     expose:
+#       - "8080"
 
 #   frontend:
 #     build: ./Gems-react-web
@@ -47,20 +49,30 @@
 #     depends_on:
 #       - backend
 
+#     expose:
+#       - "5173"
+
+#   nginx:
+#     image: nginx:latest
+#     container_name: gems-nginx
+#     restart: always
+
+#     depends_on:
+#       - frontend
+#       - backend
+
 #     ports:
-#       - "5173:5173"
+#       - "80:80"
 
 #     volumes:
-#       - ./Gems-react-web:/app
-#       - /app/node_modules
-
-#     stdin_open: true
-#     tty: true
+#       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
 
 # volumes:
 #   mysql-data:
 
-  
+# networks:
+#   gems-network:
+
 version: "3.9"
 
 services:
@@ -87,8 +99,12 @@ services:
       retries: 10
       start_period: 30s
 
+    networks:
+      - gems-network
+
   backend:
-    build: ./GemsBackend
+    build:
+      context: ./GemsBackend
     container_name: gems-backend
     restart: always
 
@@ -104,8 +120,12 @@ services:
     expose:
       - "8080"
 
+    networks:
+      - gems-network
+
   frontend:
-    build: ./Gems-react-web
+    build:
+      context: ./Gems-react-web
     container_name: gems-frontend
     restart: always
 
@@ -114,6 +134,9 @@ services:
 
     expose:
       - "5173"
+
+    networks:
+      - gems-network
 
   nginx:
     image: nginx:latest
@@ -130,8 +153,12 @@ services:
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
 
+    networks:
+      - gems-network
+
 volumes:
   mysql-data:
 
 networks:
   gems-network:
+    driver: bridge
