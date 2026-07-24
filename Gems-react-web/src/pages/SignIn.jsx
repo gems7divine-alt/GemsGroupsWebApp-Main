@@ -17,11 +17,6 @@ const SignIn = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    setEmail("");
-    setPassword("");
-  }, []);
-
   const handleSubmit = async (e) => {
 
     e.preventDefault();
@@ -103,7 +98,6 @@ const SignIn = () => {
 
         <form
           onSubmit={handleSubmit}
-          autoComplete="off"
           className="p-8 flex flex-col gap-6"
         >
 
@@ -119,7 +113,6 @@ const SignIn = () => {
               type="email"
               className="w-full mt-2 bg-dark-bg/50 border border-white/10 rounded-lg px-4 py-3 text-white"
               value={email}
-              autoComplete="off"
               onChange={(e) => setEmail(e.target.value)}
               required
             />
@@ -138,7 +131,6 @@ const SignIn = () => {
               type="password"
               className="w-full mt-2 bg-dark-bg/50 border border-white/10 rounded-lg px-4 py-3 text-white"
               value={password}
-              autoComplete="new-password"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
