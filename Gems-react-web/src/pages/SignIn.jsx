@@ -5,7 +5,6 @@ import { loginUser } from "../api/authApi";
 import Button from "../components/Button";
 import AnimatedBackground from "../components/AnimatedBackground";
 import { LogIn, AlertCircle } from "lucide-react";
-import React, { useState, useEffect } from "react";
 
 const SignIn = () => {
 
