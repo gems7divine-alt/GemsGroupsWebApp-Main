@@ -19,8 +19,10 @@ public class CorsConfig {
                 registry.addMapping("/**")
                         .allowedOrigins(
                                 "http://localhost:5173",
+                                "http://82.25.104.27:5173",
                                 "http://82.25.104.27",
-                                "http://82.25.104.27:5173"
+                                "https://gems-groups.in",
+                                "https://www.gems-groups.in"
                         )
                         .allowedMethods(
                                 "GET",
@@ -33,8 +35,6 @@ public class CorsConfig {
                         .allowCredentials(false);
 
             }
-
         };
-
     }
 }
