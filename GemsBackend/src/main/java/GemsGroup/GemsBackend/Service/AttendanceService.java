@@ -133,99 +133,47 @@ public class AttendanceService {
     // DASHBOARD
     // ===========================================================
 
-//     public DashboardResponse getDashboard(String email) {
+    public DashboardResponse getDashboard(String email) {
 
-//         User user = userRepository.findByEmail(email)
-//                 .orElseThrow(() -> new RuntimeException("User Not Found"));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User Not Found"));
 
-//         LocalDate today = LocalDate.now(IST);
+        LocalDate today = LocalDate.now(IST);
 
-//         Attendance todayAttendance = attendanceRepository
-//                 .findByUserAndDate(user, today)
-//                 .orElse(null);
+        Attendance todayAttendance = attendanceRepository
+                .findByUserAndDate(user, today)
+                .orElse(null);
 
-//         DashboardResponse response = new DashboardResponse();
+        DashboardResponse response = new DashboardResponse();
 
-//         if (todayAttendance == null) {
+        if (todayAttendance == null) {
 
-//             response.setTodayStatus("Absent");
-//             response.setCheckIn("--");
-//             response.setWorkingHours("00:00");
-
-//         } else {
-
-//             response.setTodayStatus(todayAttendance.getStatus());
-
-//             if (todayAttendance.getCheckIn() != null) {
-//                 response.setCheckIn(
-//                         todayAttendance.getCheckIn().format(TIME_FORMAT)
-//                 );
-//             } else {
-//                 response.setCheckIn("--");
-//             }
-
-//             response.setWorkingHours(
-//                     todayAttendance.getWorkingHours()
-//             );
-//         }
-
-//         response.setWeeklyHours(calculateWeeklyHours(user));
-//         response.setWeeklyChart(getWeeklyChart(user));
-
-//         return response;
-//     }
-
-public DashboardResponse getDashboard(String email) {
-
-    User user = userRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("User Not Found"));
-
-    LocalDate today = LocalDate.now(IST);
-
-    Attendance todayAttendance = attendanceRepository
-            .findByUserAndDate(user, today)
-            .orElse(null);
-
-    DashboardResponse response = new DashboardResponse();
-
-    // Employee has not checked in today
-    if (todayAttendance == null) {
-
-        response.setTodayStatus("Absent");
-        response.setCheckIn("--");
-        response.setWorkingHours("00:00");
-        response.setCheckedOut(false);
-
-    } else {
-
-        response.setTodayStatus(todayAttendance.getStatus());
-
-        // Check In Time
-        if (todayAttendance.getCheckIn() != null) {
-            response.setCheckIn(
-                    todayAttendance.getCheckIn().format(TIME_FORMAT)
-            );
-        } else {
+            response.setTodayStatus("Absent");
             response.setCheckIn("--");
-        }
-
-        // Working Hours
-        if (todayAttendance.getWorkingHours() != null) {
-            response.setWorkingHours(todayAttendance.getWorkingHours());
-        } else {
             response.setWorkingHours("00:00");
+
+        } else {
+
+            response.setTodayStatus(todayAttendance.getStatus());
+
+            if (todayAttendance.getCheckIn() != null) {
+                response.setCheckIn(
+                        todayAttendance.getCheckIn().format(TIME_FORMAT)
+                );
+            } else {
+                response.setCheckIn("--");
+            }
+
+            response.setWorkingHours(
+                    todayAttendance.getWorkingHours()
+            );
         }
 
-        // IMPORTANT: Set Checkout Status
-        response.setCheckedOut(todayAttendance.getCheckOut() != null);
+        response.setWeeklyHours(calculateWeeklyHours(user));
+        response.setWeeklyChart(getWeeklyChart(user));
+
+        return response;
     }
-
-    // Weekly Summary
-    response.setWeeklyHours(calculateWeeklyHours(user));
-    response.setWeeklyChart(getWeeklyChart(user));
-
-    return response;
-}
 
     // ===========================================================
     // ATTENDANCE HISTORY
