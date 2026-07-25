@@ -15,11 +15,13 @@ public class AuthController {
 
     @Autowired
     private AuthService service;
+    
 
     @PostMapping("/register")
     public AuthResponse register(
+        
             @RequestBody RegisterRequest request){
-
+                System.out.println("REGISTER REQUEST RECEIVED");
         return service.register(request);
     }
 
