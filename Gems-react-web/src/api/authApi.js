@@ -20,7 +20,6 @@ export const loginUser = async (email, password) => {
     }
 
     return data;
-
   } catch (error) {
     console.error("Login Error:", error);
     throw error;
@@ -35,9 +34,10 @@ export const registerUser = async (fullName, email, password) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        fullName,
-        email,
-        password,
+        // Backend expects "name", not "fullName"
+        name: fullName,
+        email: email,
+        password: password,
       }),
     });
 
@@ -48,7 +48,6 @@ export const registerUser = async (fullName, email, password) => {
     }
 
     return data;
-
   } catch (error) {
     console.error("Register Error:", error);
     throw error;
