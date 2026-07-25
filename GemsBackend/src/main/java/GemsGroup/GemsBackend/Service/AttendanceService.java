@@ -133,47 +133,99 @@ public class AttendanceService {
     // DASHBOARD
     // ===========================================================
 
-    public DashboardResponse getDashboard(String email) {
+//     public DashboardResponse getDashboard(String email) {
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User Not Found"));
+//         User user = userRepository.findByEmail(email)
+//                 .orElseThrow(() -> new RuntimeException("User Not Found"));
 
-        LocalDate today = LocalDate.now(IST);
+//         LocalDate today = LocalDate.now(IST);
 
-        Attendance todayAttendance = attendanceRepository
-                .findByUserAndDate(user, today)
-                .orElse(null);
+//         Attendance todayAttendance = attendanceRepository
+//                 .findByUserAndDate(user, today)
+//                 .orElse(null);
 
-        DashboardResponse response = new DashboardResponse();
+//         DashboardResponse response = new DashboardResponse();
 
-        if (todayAttendance == null) {
+//         if (todayAttendance == null) {
 
-            response.setTodayStatus("Absent");
-            response.setCheckIn("--");
-            response.setWorkingHours("00:00");
+//             response.setTodayStatus("Absent");
+//             response.setCheckIn("--");
+//             response.setWorkingHours("00:00");
 
-        } else {
+//         } else {
 
-            response.setTodayStatus(todayAttendance.getStatus());
+//             response.setTodayStatus(todayAttendance.getStatus());
 
-            if (todayAttendance.getCheckIn() != null) {
-                response.setCheckIn(
-                        todayAttendance.getCheckIn().format(TIME_FORMAT)
-                );
-            } else {
-                response.setCheckIn("--");
-            }
+//             if (todayAttendance.getCheckIn() != null) {
+//                 response.setCheckIn(
+//                         todayAttendance.getCheckIn().format(TIME_FORMAT)
+//                 );
+//             } else {
+//                 response.setCheckIn("--");
+//             }
 
-            response.setWorkingHours(
-                    todayAttendance.getWorkingHours()
+//             response.setWorkingHours(
+//                     todayAttendance.getWorkingHours()
+//             );
+//         }
+
+//         response.setWeeklyHours(calculateWeeklyHours(user));
+//         response.setWeeklyChart(getWeeklyChart(user));
+
+//         return response;
+//     }
+
+public DashboardResponse getDashboard(String email) {
+
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User Not Found"));
+
+    LocalDate today = LocalDate.now(IST);
+
+    Attendance todayAttendance = attendanceRepository
+            .findByUserAndDate(user, today)
+            .orElse(null);
+
+    DashboardResponse response = new DashboardResponse();
+
+    // Employee has not checked in today
+    if (todayAttendance == null) {
+
+        response.setTodayStatus("Absent");
+        response.setCheckIn("--");
+        response.setWorkingHours("00:00");
+        response.setCheckedOut(false);
+
+    } else {
+
+        response.setTodayStatus(todayAttendance.getStatus());
+
+        // Check In Time
+        if (todayAttendance.getCheckIn() != null) {
+            response.setCheckIn(
+                    todayAttendance.getCheckIn().format(TIME_FORMAT)
             );
+        } else {
+            response.setCheckIn("--");
         }
 
-        response.setWeeklyHours(calculateWeeklyHours(user));
-        response.setWeeklyChart(getWeeklyChart(user));
+        // Working Hours
+        if (todayAttendance.getWorkingHours() != null) {
+            response.setWorkingHours(todayAttendance.getWorkingHours());
+        } else {
+            response.setWorkingHours("00:00");
+        }
 
-        return response;
+        // IMPORTANT: Set Checkout Status
+        response.setCheckedOut(todayAttendance.getCheckOut() != null);
     }
+
+    // Weekly Summary
+    response.setWeeklyHours(calculateWeeklyHours(user));
+    response.setWeeklyChart(getWeeklyChart(user));
+
+    return response;
+}
 
     // ===========================================================
     // ATTENDANCE HISTORY
