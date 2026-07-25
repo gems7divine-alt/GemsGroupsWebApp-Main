@@ -29,30 +29,32 @@ const Attendance = () => {
       return;
     }
 
+    const handleFilter = (fromDateStr, toDateStr) => {
+
+    if (!fromDateStr && !toDateStr) {
+        setData(fullData);
+        return;
+    }
+
+    const from = fromDateStr ? new Date(fromDateStr) : null;
+    const to = toDateStr ? new Date(toDateStr) : null;
+
+    if (to) {
+        to.setHours(23,59,59,999);
+    }
+
     const filtered = fullData.filter(record => {
-      const recordDate = new Date(record.date);
-      recordDate.setHours(0, 0, 0, 0);
-      let isValid = true;
-      
-      if (fromDateStr) {
-        const [year, month, day] = fromDateStr.split('-');
-        const from = new Date(year, month - 1, day);
-        from.setHours(0, 0, 0, 0);
-        if (recordDate < from) isValid = false;
-      }
-      
-      if (toDateStr) {
-        const [year, month, day] = toDateStr.split('-');
-        const to = new Date(year, month - 1, day);
-        to.setHours(23, 59, 59, 999);
-        if (recordDate > to) isValid = false;
-      }
-      
-      return isValid;
+
+        const recordDate = new Date(record.date);
+
+        if (from && recordDate < from) return false;
+        if (to && recordDate > to) return false;
+
+        return true;
     });
-    
+
     setData(filtered);
-  };
+};
 
   const handleDownload = () => {
     if (!data || data.length === 0) return;
